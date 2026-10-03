@@ -1,0 +1,1147 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FoodFit | Food & Calorie Tracker</title>
+
+    <!-- Bootstrap 5 -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Google Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+
+        /* =========================
+           GLOBAL
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    rgba(10, 20, 15, 0.88),
+                    rgba(10, 20, 15, 0.94)
+                ),
+                url("https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=2000&q=80");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            background: rgba(10, 20, 15, 0.75);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .navbar-brand {
+            font-size: 25px;
+            font-weight: 800;
+            color: #b7ff5a !important;
+        }
+
+        .navbar-brand span {
+            color: #ffffff;
+        }
+
+        .nav-link {
+            color: #dddddd !important;
+            margin: 0 8px;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #b7ff5a !important;
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            padding: 70px 0 40px;
+        }
+
+        .hero h1 {
+            font-size: clamp(35px, 5vw, 65px);
+            font-weight: 800;
+            line-height: 1.15;
+        }
+
+        .hero h1 span {
+            color: #b7ff5a;
+        }
+
+        .hero p {
+            color: #c9c9c9;
+            max-width: 600px;
+            font-size: 17px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 18px;
+            border-radius: 30px;
+            background: rgba(183,255,90,0.12);
+            border: 1px solid rgba(183,255,90,0.3);
+            color: #b7ff5a;
+            margin-bottom: 20px;
+        }
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .btn-foodfit {
+            background: #b7ff5a;
+            color: #14200f;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .btn-foodfit:hover {
+            background: #d2ff9a;
+            color: #14200f;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(183,255,90,0.2);
+        }
+
+        /* =========================
+           GLASS CARD
+        ========================= */
+
+        .glass-card {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(18px);
+            border-radius: 22px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        /* =========================
+           STAT CARDS
+        ========================= */
+
+        .stat-card {
+            min-height: 150px;
+            padding: 25px;
+            transition: 0.4s;
+            transform-style: preserve-3d;
+        }
+
+        .stat-card:hover {
+            transform: rotateY(7deg) translateY(-8px);
+            border-color: rgba(183,255,90,0.4);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(183,255,90,0.13);
+            color: #b7ff5a;
+            font-size: 22px;
+        }
+
+        .stat-number {
+            font-size: 30px;
+            font-weight: 800;
+            margin-top: 15px;
+        }
+
+        .stat-label {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        /* =========================
+           FOOD CARD
+        ========================= */
+
+        .food-card {
+            padding: 18px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.045);
+            border-radius: 15px;
+            transition: 0.3s;
+        }
+
+        .food-card:hover {
+            background: rgba(183,255,90,0.08);
+            transform: translateX(5px);
+        }
+
+        .food-image {
+            width: 55px;
+            height: 55px;
+            object-fit: cover;
+            border-radius: 14px;
+        }
+
+        .food-name {
+            font-weight: 600;
+        }
+
+        .food-type {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .calories {
+            color: #b7ff5a;
+            font-weight: 700;
+        }
+
+        /* =========================
+           PROGRESS
+        ========================= */
+
+        .progress {
+            height: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #8ee63d, #d2ff70);
+            border-radius: 20px;
+        }
+
+        /* =========================
+           CIRCLE
+        ========================= */
+
+        .calorie-circle {
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                conic-gradient(
+                    #b7ff5a 0deg 223deg,
+                    rgba(255,255,255,0.08) 223deg 360deg
+                );
+
+            position: relative;
+        }
+
+        .calorie-circle::before {
+            content: "";
+            position: absolute;
+            width: 155px;
+            height: 155px;
+            background: #182119;
+            border-radius: 50%;
+        }
+
+        .circle-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .circle-content h2 {
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .circle-content small {
+            color: #999;
+        }
+
+        /* =========================
+           FLOATING FOOD ICONS
+        ========================= */
+
+        .floating-food {
+            position: fixed;
+            opacity: 0.07;
+            font-size: 70px;
+            z-index: -1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .food-one {
+            top: 18%;
+            left: 4%;
+        }
+
+        .food-two {
+            top: 55%;
+            right: 4%;
+            animation-delay: 2s;
+        }
+
+        .food-three {
+            bottom: 5%;
+            left: 10%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%,100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(8deg);
+            }
+        }
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section-title {
+            font-weight: 700;
+        }
+
+        .section-title span {
+            color: #b7ff5a;
+        }
+
+        /* =========================
+           MONTHLY BOX
+        ========================= */
+
+        .monthly-box {
+            padding: 28px;
+            margin-top: 25px;
+        }
+
+        .month-number {
+            font-size: 42px;
+            font-weight: 800;
+            color: #b7ff5a;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            margin-top: 70px;
+            padding: 30px 0;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            color: #888;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media(max-width: 768px) {
+
+            .hero {
+                padding-top: 40px;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .calorie-circle {
+                margin-top: 25px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- Floating Background Elements -->
+
+<div class="floating-food food-one">🥑</div>
+<div class="floating-food food-two">🍎</div>
+<div class="floating-food food-three">🥗</div>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar navbar-expand-lg sticky-top">
+
+    <div class="container">
+
+        <a class="navbar-brand" href="#">
+            🥗 Food<span>Fit</span>
+        </a>
+
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Dashboard</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#meals">Today's Meals</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#monthly">Monthly Report</a>
+                </li>
+
+                <li class="nav-item ms-lg-3">
+                    <button
+                        class="btn btn-foodfit"
+                        onclick="addFood()">
+
+                        <i class="bi bi-plus-lg"></i>
+                        Add Food
+
+                    </button>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-7">
+
+                <div class="hero-badge">
+                    <i class="bi bi-stars"></i>
+                    Smart Nutrition Tracking
+                </div>
+
+                <h1>
+                    Eat Smart.<br>
+                    Track Better.<br>
+                    Stay <span>Fit.</span>
+                </h1>
+
+                <p class="mt-4">
+                    FoodFit helps you understand your daily food
+                    consumption, track calories and build healthier
+                    eating habits.
+                </p>
+
+                <div class="mt-4">
+
+                    <button
+                        class="btn btn-foodfit me-2"
+                        onclick="addFood()">
+
+                        <i class="bi bi-camera"></i>
+                        Add Your Food
+
+                    </button>
+
+                    <button
+                        class="btn btn-outline-light rounded-pill px-4"
+                        onclick="showReport()">
+
+                        <i class="bi bi-bar-chart"></i>
+                        View Report
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     STATISTICS
+========================= -->
+
+<section class="container mt-4">
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+
+            <div class="glass-card stat-card">
+
+                <div class="stat-icon">
+                    🔥
+                </div>
+
+                <div class="stat-number">
+                    <span id="consumedCalories">1240</span>
+                    <small> kcal</small>
+                </div>
+
+                <div class="stat-label">
+                    Calories Consumed Today
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="glass-card stat-card">
+
+                <div class="stat-icon">
+                    🎯
+                </div>
+
+                <div class="stat-number">
+                    2000
+                    <small> kcal</small>
+                </div>
+
+                <div class="stat-label">
+                    Daily Calorie Goal
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="glass-card stat-card">
+
+                <div class="stat-icon">
+                    🍽️
+                </div>
+
+                <div class="stat-number">
+                    <span id="mealCount">4</span>
+                </div>
+
+                <div class="stat-label">
+                    Meals Tracked Today
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     MAIN DASHBOARD
+========================= -->
+
+<section class="container mt-5">
+
+    <div class="row g-4">
+
+        <!-- MEALS -->
+
+        <div class="col-lg-7" id="meals">
+
+            <div class="glass-card p-4">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+
+                    <div>
+
+                        <h4 class="section-title mb-1">
+                            Today's <span>Meals</span>
+                        </h4>
+
+                        <small class="text-secondary">
+                            October 03, 2026
+                        </small>
+
+                    </div>
+
+                    <button
+                        class="btn btn-sm btn-foodfit"
+                        onclick="addFood()">
+
+                        + Add
+
+                    </button>
+
+                </div>
+
+
+                <!-- Food Item -->
+
+                <div class="food-card">
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <img
+                            class="food-image"
+                            src="https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?auto=format&fit=crop&w=200&q=80"
+                            alt="Breakfast">
+
+                        <div>
+
+                            <div class="food-name">
+                                Healthy Breakfast
+                            </div>
+
+                            <div class="food-type">
+                                Breakfast • 1 serving
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="calories">
+                        350 kcal
+                    </div>
+
+                </div>
+
+
+                <div class="food-card">
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <img
+                            class="food-image"
+                            src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=200&q=80"
+                            alt="Lunch">
+
+                        <div>
+
+                            <div class="food-name">
+                                Chicken Salad
+                            </div>
+
+                            <div class="food-type">
+                                Lunch • 250g
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="calories">
+                        520 kcal
+                    </div>
+
+                </div>
+
+
+                <div class="food-card">
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <img
+                            class="food-image"
+                            src="https://images.unsplash.com/photo-1579613832125-5d34a13ffe2a?auto=format&fit=crop&w=200&q=80"
+                            alt="Apple">
+
+                        <div>
+
+                            <div class="food-name">
+                                Fresh Apple
+                            </div>
+
+                            <div class="food-type">
+                                Snack • 1 medium
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="calories">
+                        120 kcal
+                    </div>
+
+                </div>
+
+
+                <div class="food-card">
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <img
+                            class="food-image"
+                            src="https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=200&q=80"
+                            alt="Rice">
+
+                        <div>
+
+                            <div class="food-name">
+                                Rice & Vegetables
+                            </div>
+
+                            <div class="food-type">
+                                Dinner • 200g
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="calories">
+                        250 kcal
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CALORIE PROGRESS -->
+
+        <div class="col-lg-5">
+
+            <div class="glass-card p-4 text-center h-100">
+
+                <h4 class="section-title">
+                    Calorie <span>Progress</span>
+                </h4>
+
+                <p class="text-secondary">
+                    Your daily consumption
+                </p>
+
+
+                <div class="calorie-circle mt-4">
+
+                    <div class="circle-content">
+
+                        <h2>
+                            62%
+                        </h2>
+
+                        <small>
+                            Daily Goal
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="mt-4 text-start">
+
+                    <div class="d-flex justify-content-between mb-2">
+
+                        <span>
+                            Consumed
+                        </span>
+
+                        <strong>
+                            1240 kcal
+                        </strong>
+
+                    </div>
+
+                    <div class="progress">
+
+                        <div
+                            class="progress-bar"
+                            style="width: 62%">
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-3 text-secondary">
+
+                        <small>
+                            Remaining
+                        </small>
+
+                        <small>
+                            760 kcal
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     MONTHLY REPORT
+========================= -->
+
+<section
+    class="container mt-5"
+    id="monthly">
+
+    <div class="glass-card monthly-box">
+
+        <div class="row align-items-center">
+
+            <div class="col-md-7">
+
+                <h3 class="section-title">
+                    Monthly <span>Nutrition Overview</span>
+                </h3>
+
+                <p class="text-secondary mt-2">
+                    Track your overall calorie consumption
+                    and understand your eating patterns.
+                </p>
+
+                <button
+                    class="btn btn-foodfit"
+                    onclick="showReport()">
+
+                    <i class="bi bi-graph-up"></i>
+                    Open Monthly Report
+
+                </button>
+
+            </div>
+
+
+            <div class="col-md-5 text-md-end mt-4 mt-md-0">
+
+                <div class="month-number">
+                    37,240
+                </div>
+
+                <div class="text-secondary">
+                    Total Calories This Month
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     AI FUTURE FEATURE
+========================= -->
+
+<section class="container mt-5">
+
+    <div class="glass-card p-4">
+
+        <div class="row align-items-center">
+
+            <div class="col-md-8">
+
+                <span class="hero-badge">
+                    🤖 Coming Soon
+                </span>
+
+                <h3>
+                    AI Food Calorie Prediction
+                </h3>
+
+                <p class="text-secondary mb-0">
+
+                    Upload a food image and FoodFit will
+                    identify the food and estimate calories
+                    using AI integration.
+
+                </p>
+
+            </div>
+
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+
+                <button
+                    class="btn btn-outline-light rounded-pill px-4"
+                    onclick="aiComingSoon()">
+
+                    <i class="bi bi-stars"></i>
+                    Try AI Prediction
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="container text-center">
+
+        <div class="mb-2">
+            🥗 <strong>FoodFit</strong>
+        </div>
+
+        <small>
+            Smart food tracking for a healthier lifestyle.
+        </small>
+
+        <br>
+
+        <small>
+            © 2026 FoodFit. All Rights Reserved.
+        </small>
+
+    </div>
+
+</footer>
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<script>
+
+    /* =========================
+       FOOD DATA
+    ========================= */
+
+    let foodData = [
+
+        {
+            name: "Healthy Breakfast",
+            calories: 350,
+            quantity: 1,
+            type: "Breakfast"
+        },
+
+        {
+            name: "Chicken Salad",
+            calories: 520,
+            quantity: 250,
+            type: "Lunch"
+        },
+
+        {
+            name: "Fresh Apple",
+            calories: 120,
+            quantity: 1,
+            type: "Snack"
+        },
+
+        {
+            name: "Rice & Vegetables",
+            calories: 250,
+            quantity: 200,
+            type: "Dinner"
+        }
+
+    ];
+
+
+    /* =========================
+       ADD FOOD
+    ========================= */
+
+    function addFood() {
+
+        let foodName = prompt(
+            "Enter food name:"
+        );
+
+        if (!foodName) {
+            return;
+        }
+
+        let calories = parseInt(
+            prompt("Enter estimated calories:")
+        );
+
+        if (isNaN(calories)) {
+
+            alert(
+                "Please enter a valid calorie value."
+            );
+
+            return;
+        }
+
+        foodData.push({
+
+            name: foodName,
+            calories: calories,
+            quantity: 1,
+            type: "Meal"
+
+        });
+
+        updateDashboard();
+
+        alert(
+            foodName +
+            " added successfully! 🍎"
+        );
+    }
+
+
+    /* =========================
+       UPDATE DASHBOARD
+    ========================= */
+
+    function updateDashboard() {
+
+        let totalCalories = 0;
+
+        foodData.forEach(food => {
+
+            totalCalories += food.calories;
+
+        });
+
+
+        document.getElementById(
+            "consumedCalories"
+        ).innerText = totalCalories;
+
+
+        document.getElementById(
+            "mealCount"
+        ).innerText = foodData.length;
+
+    }
+
+
+    /* =========================
+       MONTHLY REPORT
+    ========================= */
+
+    function showReport() {
+
+        alert(
+            "Monthly Report\n\n" +
+
+            "Total Calories: 37,240 kcal\n" +
+
+            "Average Daily Calories: 1,241 kcal\n\n" +
+
+            "Detailed charts will be available " +
+            "in the Monthly Report page."
+        );
+
+    }
+
+
+    /* =========================
+       AI FEATURE
+    ========================= */
+
+    function aiComingSoon() {
+
+        alert(
+            "🤖 AI Food Prediction\n\n" +
+
+            "This feature will be connected " +
+            "to the AI model in the next phase.\n\n" +
+
+            "Image → Food Recognition → " +
+            "Quantity → Calorie Prediction"
+        );
+
+    }
+
+
+    /* =========================
+       INITIALIZE
+    ========================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            updateDashboard();
+
+        }
+    );
+
+</script>
+
+</body>
+</html>
+```
